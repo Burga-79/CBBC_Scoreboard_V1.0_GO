@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CBBC Display</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="display-body">
+
+  <!-- BACKGROUND LAYER -->
+  <div class="background-layer">
+    <div id="backgroundImage" class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="club-name">Comet Bay Bowling Club</div>
+      <div class="header-subtitle">Live Scoreboard</div>
+    </div>
+
+    <div class="club-logo">
+      <img id="clubLogoImg" alt="Club Logo" />
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- LADDER -->
+    <section class="ladder-section">
+      <h2>Ladder</h2>
+      <table id="ladderTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>F</th>
+            <th>A</th>
+            <th>Pts</th>
+            <th>%</th>
+          </tr>
+        </thead>
+        <tbody id="ladderBody"></tbody>
+      </table>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results-section">
+      <h2>Recent Results</h2>
+      <div id="resultsList"></div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="sponsors-label">Sponsors</div>
+    <div id="sponsorsBar" class="sponsors-carousel"></div>
+  </footer>
+
+  <script src="script-display.js"></script>
+</body>
+</html>
