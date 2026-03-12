@@ -191,7 +191,7 @@ function setupTeams() {
   const sortSelect = document.getElementById("teamsSortSelect");
 
   async function getTeams() {
-    return await apiGet(API.teams);
+    return await apiGet(API.teams); // returns array of objects
   }
 
   async function setTeams(teams) {
@@ -207,22 +207,21 @@ function setupTeams() {
 
   function getSortedTeams(teams) {
     const mode = sortSelect.value;
-
-    if (mode === "none") return teams.slice();
-
     const copy = teams.slice();
 
+    if (mode === "none") return copy;
+
     if (mode === "az" || mode === "za") {
-      copy.sort((a, b) => a.localeCompare(b));
+      copy.sort((a, b) => a.name.localeCompare(b.name));
       if (mode === "za") copy.reverse();
       return copy;
     }
 
     if (mode === "numAsc" || mode === "numDesc") {
       copy.sort((a, b) => {
-        const na = parseLeadingNumber(a);
-        const nb = parseLeadingNumber(b);
-        if (na == null && nb == null) return a.localeCompare(b);
+        const na = parseLeadingNumber(a.name);
+        const nb = parseLeadingNumber(b.name);
+        if (na == null && nb == null) return a.name.localeCompare(b.name);
         if (na == null) return 1;
         if (nb == null) return -1;
         return na - nb;
@@ -231,7 +230,7 @@ function setupTeams() {
       return copy;
     }
 
-    return teams.slice();
+    return copy;
   }
 
   async function renderTeams() {
@@ -240,14 +239,14 @@ function setupTeams() {
 
     tableBody.innerHTML = "";
 
-    sorted.forEach((teamName, index) => {
+    sorted.forEach((team, index) => {
       const tr = document.createElement("tr");
 
       const idxTd = document.createElement("td");
       idxTd.textContent = index + 1;
 
       const nameTd = document.createElement("td");
-      nameTd.textContent = teamName;
+      nameTd.textContent = team.name;
 
       const actionsTd = document.createElement("td");
 
@@ -260,21 +259,21 @@ function setupTeams() {
       deleteBtn.textContent = "Delete";
 
       editBtn.addEventListener("click", async () => {
-        const newName = prompt("Edit team name:", teamName);
+        const newName = prompt("Edit team name:", team.name);
         if (!newName) return;
 
         const all = await getTeams();
-        const idx = all.indexOf(teamName);
+        const idx = all.findIndex(t => t.name === team.name);
         if (idx >= 0) {
-          all[idx] = newName.trim();
+          all[idx].name = newName.trim();
           await setTeams(all);
           renderTeams();
         }
       });
 
       deleteBtn.addEventListener("click", async () => {
-        if (!confirm(`Delete team "${teamName}"?`)) return;
-        const all = (await getTeams()).filter((t) => t !== teamName);
+        if (!confirm(`Delete team "${team.name}"?`)) return;
+        const all = (await getTeams()).filter(t => t.name !== team.name);
         await setTeams(all);
         renderTeams();
       });
@@ -295,7 +294,7 @@ function setupTeams() {
     if (!value) return;
 
     const teams = await getTeams();
-    teams.push(value);
+    teams.push({ name: value });
 
     await setTeams(teams);
 
