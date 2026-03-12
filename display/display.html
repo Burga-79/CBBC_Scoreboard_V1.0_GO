@@ -8,22 +8,30 @@
 
 <body class="theme-dark content-light display-default">
 
-  <!-- BACKGROUND -->
-  <img id="backgroundImage" class="background-image" />
+  <!-- BACKGROUND LAYER -->
+  <div class="background-layer">
+    <div id="backgroundImage" class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
 
   <!-- HEADER -->
-  <header class="display-header">
-    <img id="clubLogo" class="club-logo" />
-    <h1 class="display-title">Comet Bay Bowling Club</h1>
+  <header class="header">
+    <div class="header-left">
+      <div class="club-name">Comet Bay Bowling Club</div>
+      <div class="header-subtitle">Live Scores & Ladder</div>
+    </div>
+    <div class="club-logo">
+      <img id="clubLogoImg" />
+    </div>
   </header>
 
   <!-- MAIN CONTENT -->
-  <main class="display-main">
+  <main class="main">
 
     <!-- LADDER -->
     <section class="ladder-section">
       <h2>Ladder</h2>
-      <table class="ladder-table">
+      <table id="ladderTable">
         <thead>
           <tr>
             <th>#</th>
@@ -46,25 +54,15 @@
     <!-- RECENT RESULTS -->
     <section class="results-section">
       <h2>Recent Results</h2>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>Round</th>
-            <th>Team 1</th>
-            <th>Score</th>
-            <th>Team 2</th>
-            <th>Sheet</th>
-          </tr>
-        </thead>
-        <tbody id="recentResultsBody"></tbody>
-      </table>
+      <div id="resultsList"></div>
     </section>
 
   </main>
 
-  <!-- SPONSOR STRIP -->
-  <footer class="sponsor-footer">
-    <div id="sponsorStrip" class="sponsor-strip"></div>
+  <!-- SPONSORS -->
+  <footer class="footer">
+    <div class="sponsors-label">Proudly Supported By</div>
+    <div id="sponsorsBar" class="sponsors-carousel"></div>
   </footer>
 
   <script src="/display/display.js"></script>
