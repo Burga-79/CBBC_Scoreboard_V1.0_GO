@@ -107,26 +107,80 @@ function renderBackground(backgrounds) {
 }
 
 // =============================================================
-//  SPONSORS — smooth scrolling + spotlight
+//  SPONSORS — infinite carousel + centre spotlight
 // =============================================================
+
+let sponsorAnimationHandle = null;
 
 function renderSponsors(sponsors, speedObj) {
   const active = sponsors.filter((s) => s.active);
   const bar = document.getElementById("sponsorsBar");
   if (!bar) return;
 
+  // Stop any previous animation loop
+  if (sponsorAnimationHandle) {
+    cancelAnimationFrame(sponsorAnimationHandle);
+    sponsorAnimationHandle = null;
+  }
+
   bar.innerHTML = "";
 
-  active.forEach((s) => {
+  if (active.length === 0) return;
+
+  // Create track container
+  const track = document.createElement("div");
+  track.className = "sponsor-track";
+  bar.appendChild(track);
+
+  // Duplicate sponsors to ensure infinite loop
+  const loopList = [...active, ...active, ...active];
+
+  loopList.forEach((s) => {
     const img = document.createElement("img");
     img.src = s.url;
     img.className = "sponsor-logo";
-    bar.appendChild(img);
+    track.appendChild(img);
   });
 
+  // Speed control
   const speed = speedObj.value || "slow";
-  bar.style.animationDuration =
-    speed === "fast" ? "10s" : speed === "medium" ? "20s" : "30s";
+  const pxPerSecond =
+    speed === "fast" ? 120 :
+    speed === "medium" ? 80 :
+    50;
+
+  let offset = 0;
+
+  function animate() {
+    offset -= pxPerSecond / 60;
+    track.style.transform = `translateX(${offset}px)`;
+
+    // Reset when fully scrolled through one set
+    const resetPoint = track.scrollWidth / 3;
+    if (Math.abs(offset) > resetPoint) {
+      offset = 0;
+    }
+
+    // Spotlight logic
+    const center = bar.getBoundingClientRect().left + bar.offsetWidth / 2;
+    const logos = track.querySelectorAll(".sponsor-logo");
+
+    logos.forEach((logo) => {
+      const rect = logo.getBoundingClientRect();
+      const logoCenter = rect.left + rect.width / 2;
+      const distance = Math.abs(center - logoCenter);
+
+      if (distance < 80) {
+        logo.classList.add("spotlight");
+      } else {
+        logo.classList.remove("spotlight");
+      }
+    });
+
+    sponsorAnimationHandle = requestAnimationFrame(animate);
+  }
+
+  sponsorAnimationHandle = requestAnimationFrame(animate);
 }
 
 // =============================================================
