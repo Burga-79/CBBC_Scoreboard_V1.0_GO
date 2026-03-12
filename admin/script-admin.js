@@ -323,11 +323,11 @@ function setupResults() {
   const tableBody = document.getElementById("resultsTableBody");
 
   async function getTeams() {
-    return await apiGet(API.teams);
+    return await apiGet(API.teams); // array of { name: "Team" }
   }
 
   async function getResults() {
-    return await apiGet(API.results);
+    return await apiGet(API.results); // array of result objects
   }
 
   async function setResults(results) {
@@ -337,8 +337,10 @@ function setupResults() {
 
   async function refreshTeamDropdowns() {
     const teams = await getTeams();
+
     [team1Select, team2Select].forEach((select) => {
       select.innerHTML = "";
+
       const placeholder = document.createElement("option");
       placeholder.value = "";
       placeholder.textContent = "-- Select team --";
@@ -346,8 +348,8 @@ function setupResults() {
 
       teams.forEach((t) => {
         const opt = document.createElement("option");
-        opt.value = t;
-        opt.textContent = t;
+        opt.value = t.name;
+        opt.textContent = t.name;
         select.appendChild(opt);
       });
     });
@@ -537,7 +539,6 @@ function setupResults() {
   refreshTeamDropdowns();
   renderResults();
 }
-
 // =============================================================
 //  SPONSORS
 // =============================================================
