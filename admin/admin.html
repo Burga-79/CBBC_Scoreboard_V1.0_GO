@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CBBC Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="theme-dark content-light">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-header">
+        <div class="sidebar-club">Comet Bay Bowling Club</div>
+        <div class="sidebar-sub">Admin Control Panel</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button data-panel="dashboard" class="active">Dashboard</button>
+        <button data-panel="teams">Teams</button>
+        <button data-panel="results">Results</button>
+        <button data-panel="sponsors">Sponsors</button>
+        <button data-panel="backgrounds">Backgrounds</button>
+        <button data-panel="settings">Settings</button>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="main-header">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Manage teams, results, sponsors, backgrounds and display settings.</p>
+      </div>
+      <div class="main-header-badge">
+        <div class="badge-live">LIVE</div>
+        <div class="badge-sub">Display running</div>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="panel-dashboard" class="panel active">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Teams</div>
+          <div class="stat-value" id="statTeams">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Results</div>
+          <div class="stat-value" id="statResults">0</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-card-header">
+          <h2>Display Preview</h2>
+          <div class="preview-controls">
+            <button id="previewRefreshBtn">Refresh</button>
+            <button id="forceRefreshDisplayBtn" class="primary">Refresh Display Now</button>
+            <span>Auto-refresh every 15s</span>
+          </div>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+          <div class="preview-frame-wrapper" id="previewFrameWrapper">
+            <iframe id="previewFrame" src="../display/display.html"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAMS -->
+    <section id="panel-teams" class="panel">
+      <div class="card">
+        <div class="panel-header-row">
+          <div>
+            <h2>Teams</h2>
+            <p class="card-sub">Add, edit, and manage the teams used in the ladder and results.</p>
+          </div>
+          <div class="sort-controls">
+            <label>
+              Sort:
+              <select id="teamsSortSelect">
+                <option value="none">None</option>
+                <option value="az">A → Z</option>
+                <option value="za">Z → A</option>
+                <option value="numAsc">1 → 9</option>
+                <option value="numDesc">9 → 1</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>
+            Team name / Skipper
+            <input type="text" id="teamNameInput" />
+          </label>
+          <button class="primary" id="addTeamBtn">Add team</button>
+        </div>
+
+        <table class="table" id="teamsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th style="width: 120px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="teamsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="panel-results" class="panel">
+      <div class="card">
+        <h2>Results</h2>
+        <p class="card-sub">Enter match results to update the ladder and recent results display.</p>
+
+        <div class="form-row">
+          <label>
+            Round
+            <input type="number" id="resultRoundInput" min="1" step="1" />
+          </label>
+          <label>
+            Sheet / Rink
+            <input type="text" id="resultSheetInput" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>
+            Team 1
+            <select id="resultTeam1Select"></select>
+          </label>
+          <label>
+            Shots (Team 1)
+            <input type="number" id="resultShots1Input" min="0" step="1" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>
+            Team 2
+            <select id="resultTeam2Select"></select>
+          </label>
+          <label>
+            Shots (Team 2)
+            <input type="number" id="resultShots2Input" min="0" step="1" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <button class="primary" id="addResultBtn">Add result</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Results list</h3>
+        <table class="table" id="resultsTable">
+          <thead>
+            <tr>
+              <th>Round</th>
+              <th>Team 1</th>
+              <th>Score</th>
+              <th>Team 2</th>
+              <th>Sheet</th>
+              <th style="width: 120px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SPONSORS -->
+    <section id="panel-sponsors" class="panel">
+      <div class="card">
+        <h2>Sponsors</h2>
+        <p class="card-sub">Upload and manage sponsor logos.</p>
+
+        <div class="form-row">
+          <label>
+            Upload sponsor
+            <input type="file" id="sponsorUploadInput" accept="image/*" />
+          </label>
+          <button class="primary" id="sponsorUploadBtn">Upload</button>
+        </div>
+
+        <div class="thumb-list" id="sponsorList"></div>
+      </div>
+    </section>
+
+    <!-- BACKGROUNDS -->
+    <section id="panel-backgrounds" class="panel">
+      <div class="card">
+        <h2>Backgrounds</h2>
+        <p class="card-sub">Upload and manage background images.</p>
+
+        <div class="form-row">
+          <label>
+            Upload background
+            <input type="file" id="backgroundUploadInput" accept="image/*" />
+          </label>
+          <button class="primary" id="backgroundUploadBtn">Upload</button>
+        </div>
+
+        <div class="bg-grid" id="backgroundGrid"></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="panel-settings" class="panel">
+      <div class="card">
+        <h2>Theme Settings</h2>
+        <div class="settings-group">
+          <h3>Sidebar Theme</h3>
+          <div class="settings-options">
+            <label><input type="radio" name="themeSelect" value="dark" checked /> Dark</label>
+            <label><input type="radio" name="themeSelect" value="accent-dual" /> Dual Accent</label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Content Theme</h3>
+          <div class="settings-options">
+            <label><input type="radio" name="contentTheme" value="light" checked /> Light</label>
+            <label><input type="radio" name="contentTheme" value="dark" /> Dark</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Club Logo</h2>
+        <div class="form-row">
+          <label>
+            Upload logo
+            <input type="file" id="logoUploadInput" accept="image/*" />
+          </label>
+          <button class="primary" id="logoUploadBtn">Upload</button>
+        </div>
+        <div class="logo-preview-container">
+          <img id="logoPreview" class="logo-preview" />
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Scoring Settings</h2>
+        <div class="settings-group">
+          <h3>Points</h3>
+          <div class="form-row">
+            <label>Win <input type="number" id="pointsWin" /></label>
+            <label>Draw <input type="number" id="pointsDraw" /></label>
+            <label>Loss <input type="number" id="pointsLoss" /></label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Options</h3>
+          <div class="settings-options">
+            <label><input type="checkbox" id="usePercentageTiebreak" /> Use percentage tiebreak</label>
+            <label><input type="checkbox" id="autoDetermineWinner" /> Auto-determine winner</label>
+          </div>
+        </div>
+
+        <button class="primary" id="saveScoringBtn">Save scoring</button>
+      </div>
+
+      <!-- NEW: SPONSOR SPEED -->
+      <div class="card">
+        <h2>Sponsor Scroll Speed</h2>
+        <div class="settings-group">
+          <div class="settings-options">
+            <label><input type="radio" name="sponsorSpeed" value="slow" checked /> Slow</label>
+            <label><input type="radio" name="sponsorSpeed" value="medium" /> Medium</label>
+            <label><input type="radio" name="sponsorSpeed" value="fast" /> Fast</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Reset Event Data</h2>
+        <p class="card-sub">Clears teams and results only. Sponsors, backgrounds, logo and settings are kept.</p>
+        <button class="danger" id="resetEventBtn">Clear Event Data</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script-admin.js"></script>
+</body>
+</html>
