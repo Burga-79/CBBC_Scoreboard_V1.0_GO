@@ -53,10 +53,10 @@ func main() {
         http.ServeFile(w, r, filepath.Join("admin", "index.html"))
     })
 
-    // Display entry point
-    http.HandleFunc("/display", func(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, filepath.Join("display", "display.html"))
-    })
+    // Display entry point (redirect /display → /display/display.html)
+http.HandleFunc("/display", func(w http.ResponseWriter, r *http.Request) {
+    http.Redirect(w, r, "/display/display.html", http.StatusFound)
+})
 
     // Static file servers
     http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir("admin"))))
