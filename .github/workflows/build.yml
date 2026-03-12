@@ -30,7 +30,7 @@ jobs:
           xcopy data release\data /E /I
           xcopy images release\images /E /I
 
-          REM Create the shortcut creator .bat file
+          # Create the shortcut creator .bat file
           echo @echo off > release\CreateShortcut.bat
           echo set TARGET=%%~dp0scoreboard.exe >> release\CreateShortcut.bat
           echo set SHORTCUT=%%USERPROFILE%%\Desktop\CBBC Scoreboard.lnk >> release\CreateShortcut.bat
