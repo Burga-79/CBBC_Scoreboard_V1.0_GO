@@ -91,10 +91,10 @@ function setupNavigation() {
 
 async function applyTheme() {
   const themeObj = await apiGet(API.theme);
-  const contentObj = await apiGet(API.contentTheme || API.theme);
+  const contentObj = await apiGet("/api/contentTheme");
 
   const theme = themeObj.value || "dark";
-  const contentTheme = contentObj.content || "light";
+  const contentTheme = contentObj.value || "light";
 
   document.body.classList.remove(
     "theme-dark",
@@ -119,6 +119,7 @@ async function applyTheme() {
 }
 
 function setupThemes() {
+  // Sidebar theme
   document.querySelectorAll('input[name="themeSelect"]').forEach((radio) => {
     radio.addEventListener("change", async (e) => {
       await apiPost(API.theme, { value: e.target.value });
@@ -126,9 +127,10 @@ function setupThemes() {
     });
   });
 
+  // Content theme
   document.querySelectorAll('input[name="contentTheme"]').forEach((radio) => {
     radio.addEventListener("change", async (e) => {
-      await apiPost(API.theme, { content: e.target.value });
+      await apiPost("/api/contentTheme", { value: e.target.value });
       applyTheme();
     });
   });
