@@ -7,9 +7,11 @@
 </head>
 
 <body class="theme-dark content-light">
+
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-inner">
+
       <div class="sidebar-header">
         <div class="sidebar-club">Comet Bay Bowling Club</div>
         <div class="sidebar-sub">Admin Control Panel</div>
@@ -23,11 +25,14 @@
         <button data-panel="backgrounds">Backgrounds</button>
         <button data-panel="settings">Settings</button>
       </nav>
+
     </div>
   </aside>
 
   <!-- MAIN -->
   <main class="main">
+
+    <!-- HEADER -->
     <header class="main-header">
       <div>
         <h1>Admin Dashboard</h1>
@@ -41,16 +46,8 @@
 
     <!-- DASHBOARD -->
     <section id="panel-dashboard" class="panel active">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Teams</div>
-          <div class="stat-value" id="statTeams">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Results</div>
-          <div class="stat-value" id="statResults">0</div>
-        </div>
-      </div>
+
+      <!-- Removed old data panel -->
 
       <div class="card">
         <div class="preview-card-header">
@@ -73,11 +70,13 @@
     <!-- TEAMS -->
     <section id="panel-teams" class="panel">
       <div class="card">
+
         <div class="panel-header-row">
           <div>
             <h2>Teams</h2>
             <p class="card-sub">Add, edit, and manage the teams used in the ladder and results.</p>
           </div>
+
           <div class="sort-controls">
             <label>
               Sort:
@@ -110,12 +109,14 @@
           </thead>
           <tbody id="teamsTableBody"></tbody>
         </table>
+
       </div>
     </section>
 
     <!-- RESULTS -->
     <section id="panel-results" class="panel">
       <div class="card">
+
         <h2>Results</h2>
         <p class="card-sub">Enter match results to update the ladder and recent results display.</p>
 
@@ -155,10 +156,12 @@
         <div class="form-row">
           <button class="primary" id="addResultBtn">Add result</button>
         </div>
+
       </div>
 
       <div class="card">
         <h3 class="card-title">Results list</h3>
+
         <table class="table" id="resultsTable">
           <thead>
             <tr>
@@ -172,12 +175,14 @@
           </thead>
           <tbody id="resultsTableBody"></tbody>
         </table>
+
       </div>
     </section>
 
     <!-- SPONSORS -->
     <section id="panel-sponsors" class="panel">
       <div class="card">
+
         <h2>Sponsors</h2>
         <p class="card-sub">Upload and manage sponsor logos.</p>
 
@@ -190,12 +195,14 @@
         </div>
 
         <div class="thumb-list" id="sponsorList"></div>
+
       </div>
     </section>
 
     <!-- BACKGROUNDS -->
     <section id="panel-backgrounds" class="panel">
       <div class="card">
+
         <h2>Backgrounds</h2>
         <p class="card-sub">Upload and manage background images.</p>
 
@@ -208,13 +215,16 @@
         </div>
 
         <div class="bg-grid" id="backgroundGrid"></div>
+
       </div>
     </section>
 
     <!-- SETTINGS -->
     <section id="panel-settings" class="panel">
+
       <div class="card">
         <h2>Theme Settings</h2>
+
         <div class="settings-group">
           <h3>Sidebar Theme</h3>
           <div class="settings-options">
@@ -234,6 +244,7 @@
 
       <div class="card">
         <h2>Club Logo</h2>
+
         <div class="form-row">
           <label>
             Upload logo
@@ -241,6 +252,7 @@
           </label>
           <button class="primary" id="logoUploadBtn">Upload</button>
         </div>
+
         <div class="logo-preview-container">
           <img id="logoPreview" class="logo-preview" />
         </div>
@@ -248,6 +260,7 @@
 
       <div class="card">
         <h2>Scoring Settings</h2>
+
         <div class="settings-group">
           <h3>Points</h3>
           <div class="form-row">
@@ -284,7 +297,9 @@
         <p class="card-sub">Clears teams and results only. Sponsors, backgrounds, logo and settings are kept.</p>
         <button class="danger" id="resetEventBtn">Clear Event Data</button>
       </div>
+
     </section>
+
   </main>
 
   <script src="/admin/script-admin.js"></script>
