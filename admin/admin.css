@@ -487,29 +487,31 @@ button.danger {
   gap: 4px;
 }
 
-/* BACKGROUND GRID */
+/* ============================================================
+   BACKGROUNDS — FIXED TO MATCH SPONSOR LIST
+   ============================================================ */
 
 .bg-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 8px;
   max-height: 260px;
   overflow-y: auto;
 }
 
 .bg-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
   border-radius: 6px;
   border: 1px solid var(--card-border);
   background: var(--card-bg);
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 
 .bg-item img {
-  width: 100%;
-  height: 80px;
+  width: 64px;
+  height: 36px;
   object-fit: cover;
   border-radius: 4px;
   border: 1px solid var(--card-border);
@@ -517,8 +519,9 @@ button.danger {
 
 .bg-item-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
 }
 
 .bg-item-footer label {
@@ -588,19 +591,19 @@ button.danger {
 #previewContainer,
 #previewFrameWrapper,
 #previewFrame {
-  pointer-events: none;   /* iframe cannot intercept clicks */
-  z-index: 0;             /* sits behind everything */
+  pointer-events: none;
+  z-index: 0;
 }
 
 .panel {
   position: relative;
   z-index: 1;
-  pointer-events: none;   /* inactive panels cannot be clicked */
+  pointer-events: none;
 }
 
 .panel.active {
-  z-index: 10;            /* active panel sits above preview */
-  pointer-events: auto;   /* fully interactive */
+  z-index: 10;
+  pointer-events: auto;
 }
 
 /* RESPONSIVE */
