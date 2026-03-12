@@ -1,6 +1,5 @@
 // =============================================================
-//  display.js — Go Backend Version
-//  Loads ALL data from /api/* endpoints
+//  display.js — Modern Version for Go Backend
 // =============================================================
 
 const API = {
@@ -11,6 +10,7 @@ const API = {
   logo: "/api/logo",
   scoring: "/api/scoring",
   theme: "/api/theme",
+  contentTheme: "/api/contentTheme",
   displayStyle: "/api/displayStyle",
   sponsorSpeed: "/api/sponsorSpeed"
 };
@@ -34,6 +34,7 @@ async function refreshDisplay() {
     logo,
     scoring,
     theme,
+    contentTheme,
     displayStyle,
     sponsorSpeed
   ] = await Promise.all([
@@ -44,11 +45,12 @@ async function refreshDisplay() {
     apiGet(API.logo),
     apiGet(API.scoring),
     apiGet(API.theme),
+    apiGet(API.contentTheme),
     apiGet(API.displayStyle),
     apiGet(API.sponsorSpeed)
   ]);
 
-  renderTheme(theme, displayStyle);
+  renderTheme(theme, contentTheme, displayStyle);
   renderLogo(logo);
   renderBackground(backgrounds);
   renderSponsors(sponsors, sponsorSpeed);
@@ -60,9 +62,9 @@ async function refreshDisplay() {
 //  THEME + DISPLAY STYLE
 // =============================================================
 
-function renderTheme(themeObj, styleObj) {
+function renderTheme(themeObj, contentObj, styleObj) {
   const theme = themeObj.value || "dark";
-  const content = themeObj.content || "light";
+  const content = contentObj.value || "light";
   const style = styleObj.value || "default";
 
   document.body.className = "";
@@ -76,7 +78,7 @@ function renderTheme(themeObj, styleObj) {
 // =============================================================
 
 function renderLogo(logo) {
-  const el = document.getElementById("clubLogo");
+  const el = document.getElementById("clubLogoImg");
   if (!el) return;
 
   if (logo && logo.url) {
@@ -97,7 +99,7 @@ function renderBackground(backgrounds) {
   if (!el) return;
 
   if (active.length > 0) {
-    el.src = active[0].url;
+    el.style.backgroundImage = `url(${active[0].url})`;
     el.style.display = "block";
   } else {
     el.style.display = "none";
@@ -105,25 +107,25 @@ function renderBackground(backgrounds) {
 }
 
 // =============================================================
-//  SPONSORS (scrolling strip)
+//  SPONSORS — smooth scrolling + spotlight
 // =============================================================
 
 function renderSponsors(sponsors, speedObj) {
   const active = sponsors.filter((s) => s.active);
-  const container = document.getElementById("sponsorStrip");
-  if (!container) return;
+  const bar = document.getElementById("sponsorsBar");
+  if (!bar) return;
 
-  container.innerHTML = "";
+  bar.innerHTML = "";
 
   active.forEach((s) => {
     const img = document.createElement("img");
     img.src = s.url;
     img.className = "sponsor-logo";
-    container.appendChild(img);
+    bar.appendChild(img);
   });
 
   const speed = speedObj.value || "slow";
-  container.style.animationDuration =
+  bar.style.animationDuration =
     speed === "fast" ? "10s" : speed === "medium" ? "20s" : "30s";
 }
 
@@ -138,8 +140,8 @@ function renderLadder(teams, results, scoring) {
   const stats = {};
 
   teams.forEach((t) => {
-    stats[t] = {
-      team: t,
+    stats[t.name] = {
+      team: t.name,
       played: 0,
       wins: 0,
       draws: 0,
@@ -184,7 +186,7 @@ function renderLadder(teams, results, scoring) {
   });
 
   teams.forEach((t) => {
-    const s = stats[t];
+    const s = stats[t.name];
     s.diff = s.shotsFor - s.shotsAgainst;
     s.pct =
       s.shotsAgainst === 0
@@ -227,26 +229,26 @@ function renderLadder(teams, results, scoring) {
 // =============================================================
 
 function renderRecentResults(results) {
-  const table = document.getElementById("recentResultsBody");
-  if (!table) return;
+  const list = document.getElementById("resultsList");
+  if (!list) return;
 
   const sorted = results
     .slice()
     .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))
     .slice(0, 10);
 
-  table.innerHTML = "";
+  list.innerHTML = "";
 
   sorted.forEach((r) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${r.round || ""}</td>
-      <td>${r.team1}</td>
-      <td>${r.shots1} - ${r.shots2}</td>
-      <td>${r.team2}</td>
-      <td>${r.sheet || ""}</td>
+    const div = document.createElement("div");
+    div.className = "result-item";
+
+    div.innerHTML = `
+      <div class="result-teams">${r.team1} vs ${r.team2}</div>
+      <div class="result-score">${r.shots1} - ${r.shots2}</div>
     `;
-    table.appendChild(tr);
+
+    list.appendChild(div);
   });
 }
 
