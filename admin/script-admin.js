@@ -605,7 +605,6 @@ function setupSponsors() {
       });
 
       actions.appendChild(visibleLabel);
-      actions.appendChild(delete
       actions.appendChild(deleteBtn);
 
       item.appendChild(img);
