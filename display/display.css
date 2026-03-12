@@ -321,3 +321,43 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* ============================================================
+   TEXT READABILITY FIX — FORCE WHITE TEXT
+   ============================================================ */
+
+.header,
+.header * {
+  color: #ffffff !important;
+}
+
+.ladder-section,
+.ladder-section *,
+.results-section,
+.results-section * {
+  color: #ffffff !important;
+}
+
+#ladderTable th,
+#ladderTable td {
+  color: #ffffff !important;
+}
+
+.result-item,
+.result-item * {
+  color: #ffffff !important;
+}
+
+.sponsors-label {
+  color: #ffffff !important;
+}
+
+/* ============================================================
+   LADDER TOP ROW — MAKE MORE PROMINENT
+   ============================================================ */
+
+#ladderTable tbody tr:nth-child(1) td {
+  background: rgba(255, 255, 255, 0.12) !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
+}
