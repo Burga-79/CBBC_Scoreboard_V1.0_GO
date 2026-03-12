@@ -107,7 +107,7 @@ function renderBackground(backgrounds) {
 }
 
 // =============================================================
-//  SPONSORS — infinite carousel + centre spotlight
+//  SPONSORS — fixed infinite carousel + proper spotlight
 // =============================================================
 
 let sponsorAnimationHandle = null;
@@ -117,7 +117,7 @@ function renderSponsors(sponsors, speedObj) {
   const bar = document.getElementById("sponsorsBar");
   if (!bar) return;
 
-  // Stop any previous animation loop
+  // Stop previous animation
   if (sponsorAnimationHandle) {
     cancelAnimationFrame(sponsorAnimationHandle);
     sponsorAnimationHandle = null;
@@ -127,12 +127,12 @@ function renderSponsors(sponsors, speedObj) {
 
   if (active.length === 0) return;
 
-  // Create track container
+  // Track container
   const track = document.createElement("div");
   track.className = "sponsor-track";
   bar.appendChild(track);
 
-  // Duplicate sponsors to ensure infinite loop
+  // Duplicate list enough times to fill the width
   const loopList = [...active, ...active, ...active];
 
   loopList.forEach((s) => {
@@ -155,22 +155,23 @@ function renderSponsors(sponsors, speedObj) {
     offset -= pxPerSecond / 60;
     track.style.transform = `translateX(${offset}px)`;
 
-    // Reset when fully scrolled through one set
-    const resetPoint = track.scrollWidth / 3;
-    if (Math.abs(offset) > resetPoint) {
+    // Reset when one full active-list width has passed
+    const singleWidth = track.scrollWidth / 3;
+    if (Math.abs(offset) > singleWidth) {
       offset = 0;
     }
 
     // Spotlight logic
-    const center = bar.getBoundingClientRect().left + bar.offsetWidth / 2;
+    const centerX = bar.getBoundingClientRect().left + bar.offsetWidth / 2;
     const logos = track.querySelectorAll(".sponsor-logo");
 
     logos.forEach((logo) => {
       const rect = logo.getBoundingClientRect();
       const logoCenter = rect.left + rect.width / 2;
-      const distance = Math.abs(center - logoCenter);
+      const distance = Math.abs(centerX - logoCenter);
 
-      if (distance < 80) {
+      // Wider spotlight window for better visibility
+      if (distance < 140) {
         logo.classList.add("spotlight");
       } else {
         logo.classList.remove("spotlight");
