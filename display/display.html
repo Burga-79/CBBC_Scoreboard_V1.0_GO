@@ -1,17 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Scoreboard Display</title>
-    <link rel="stylesheet" href="display.css">
+  <meta charset="UTF-8" />
+  <title>CBBC Display</title>
+  <link rel="stylesheet" href="display.css" />
 </head>
-<body>
 
-<div id="container">
-    <h1 id="teams"></h1>
-    <h2 id="scores"></h2>
-</div>
+<body class="theme-dark content-light display-default">
 
-<script src="display.js"></script>
+  <!-- BACKGROUND -->
+  <img id="backgroundImage" class="background-image" />
+
+  <!-- HEADER -->
+  <header class="display-header">
+    <img id="clubLogo" class="club-logo" />
+    <h1 class="display-title">Comet Bay Bowling Club</h1>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="display-main">
+
+    <!-- LADDER -->
+    <section class="ladder-section">
+      <h2>Ladder</h2>
+      <table class="ladder-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>F</th>
+            <th>A</th>
+            <th>Diff</th>
+            <th>%</th>
+            <th>Pts</th>
+          </tr>
+        </thead>
+        <tbody id="ladderTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- RECENT RESULTS -->
+    <section class="results-section">
+      <h2>Recent Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Round</th>
+            <th>Team 1</th>
+            <th>Score</th>
+            <th>Team 2</th>
+            <th>Sheet</th>
+          </tr>
+        </thead>
+        <tbody id="recentResultsBody"></tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- SPONSOR STRIP -->
+  <footer class="sponsor-footer">
+    <div id="sponsorStrip" class="sponsor-strip"></div>
+  </footer>
+
+  <script src="display.js"></script>
 </body>
 </html>
