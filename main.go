@@ -37,6 +37,7 @@ func main() {
     http.HandleFunc("/api/logo", handleJSONObject("logo.json"))
     http.HandleFunc("/api/scoring", handleJSONObject("scoring.json"))
     http.HandleFunc("/api/theme", handleJSONObject("theme.json"))
+    http.HandleFunc("/api/contentTheme", handleJSONObject("contentTheme.json"))
     http.HandleFunc("/api/displayStyle", handleJSONObject("displayStyle.json"))
     http.HandleFunc("/api/sponsorSpeed", handleJSONObject("sponsorSpeed.json"))
 
