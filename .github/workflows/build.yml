@@ -21,8 +21,28 @@ jobs:
       - name: Build EXE
         run: go build -o scoreboard.exe
 
-      - name: Upload EXE
+      - name: Prepare release folder
+        run: |
+          mkdir release
+          copy scoreboard.exe release\
+          xcopy admin release\admin /E /I
+          xcopy display release\display /E /I
+          xcopy data release\data /E /I
+          xcopy images release\images /E /I
+
+          REM Create the shortcut creator .bat file
+          echo @echo off > release\CreateShortcut.bat
+          echo set TARGET=%%~dp0scoreboard.exe >> release\CreateShortcut.bat
+          echo set SHORTCUT=%%USERPROFILE%%\Desktop\CBBC Scoreboard.lnk >> release\CreateShortcut.bat
+          echo powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('%%SHORTCUT%%');$s.TargetPath='%%TARGET%%';$s.WorkingDirectory='%%~dp0';$s.IconLocation='%%TARGET%%';$s.Save()" >> release\CreateShortcut.bat
+          echo echo Desktop shortcut created: CBBC Scoreboard.lnk >> release\CreateShortcut.bat
+          echo pause >> release\CreateShortcut.bat
+
+      - name: Zip release
+        run: powershell Compress-Archive -Path release\* -DestinationPath scoreboard.zip
+
+      - name: Upload ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: scoreboard
-          path: scoreboard.exe
+          name: scoreboard-full
+          path: scoreboard.zip
